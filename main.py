@@ -1,15 +1,69 @@
 import random
+import os
 
-def create(name,text):
-    with open(f"{name}.pdf","w",encoding="utf-8") as filen:
-        filen.writelines("Cím: Egyiptom")
-        filen.writelines(text)
-        filen.write("\n")
-        filen.writelines(text)
-        filen.write("\n")
-def generate_text():
-    pass
+# Szavak és kifejezések listái
+szereplok = ["Péter", "Anna", "János", "Katalin", "a kisfiú", "az öregember", "a tanár", "a macska"]
+cselekvesek = [
+    "elindult a hegyek felé", 
+    "megállt egy pillanatra", 
+    "nyugodtan ült a padon", 
+    "gondolkodott a múlt eseményein", 
+    "keresett valamit a zsebében", 
+    "felnézett az égre"
+]
+helyszinek = [
+    "a sűrű erdőben", 
+    "egy csendes faluban", 
+    "a város zajos utcáin", 
+    "egy elhagyatott réten", 
+    "a folyóparton", 
+    "a holdfényes éjszakában"
+]
+esemenyek = [
+    "hirtelen egy különös hangot hallott", 
+    "egy ismeretlen alak tűnt fel a távolban", 
+    "egy váratlan szellő fújt végig a tájon", 
+    "az égbolt elsötétült", 
+    "egy rég elfeledett emlék jutott eszébe", 
+    "egy szarvas szaladt át előtte"
+]
+kovetkezmenyek = [
+    "ez megváltoztatta az útját", 
+    "ráébredt egy fontos igazságra", 
+    "visszatért oda, ahonnan elindult", 
+    "úgy döntött, hogy tovább megy", 
+    "egy új barátot talált", 
+    "megértette, mit kell tennie"
+]
 
+# Mondat generálása
+def generate_sentence():
+    szereplo = random.choice(szereplok)
+    cselekves = random.choice(cselekvesek)
+    helyszin = random.choice(helyszinek)
+    esemeny = random.choice(esemenyek)
+    kovetkezmeny = random.choice(kovetkezmenyek)
+    
+    return f"{szereplo} {cselekves} {helyszin}, amikor {esemeny}, és {kovetkezmeny}."
+
+# Történet generálása
+def generate_story(paragraphs=3, sentences_per_paragraph=5):
+    story = []
+    for _ in range(paragraphs):
+        paragraph = "\n".join(generate_sentence() for _ in range(sentences_per_paragraph))
+        story.append(paragraph)
+    return "\n\n".join(story)
+
+# PDF-helyettesítő fájl létrehozása
+def create_pdf_like_file(name, story):
+    os.makedirs("CreatedPDF", exist_ok=True)
+    file_path = os.path.join("CreatedPDF", f"{name}.pdf")
+    with open(file_path, "w", encoding="utf-8") as file:
+        file.write("Cím: Egy különös utazás\n\n")
+        file.write(story)
+
+# Főprogram
 if __name__ == "__main__":
-    for i in range(10):
-        create(f"Asdablu{i}",generate_text())
+    for i in range(3):  # 3 különböző történet generálása
+        story = generate_story(paragraphs=4, sentences_per_paragraph=7)  # 4 bekezdés, 7 mondat/bekezdés
+        create_pdf_like_file(f"Történet_{i}", story)
