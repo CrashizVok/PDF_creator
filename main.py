@@ -1,7 +1,6 @@
 import random
 import os
 
-# Szavak és kifejezések listái
 szereplok = ["Péter", "Anna", "János", "Katalin", "a kisfiú", "az öregember", "a tanár", "a macska"]
 cselekvesek = [
     "elindult a hegyek felé", 
@@ -36,7 +35,6 @@ kovetkezmenyek = [
     "megértette, mit kell tennie"
 ]
 
-# Mondat generálása
 def generate_sentence():
     szereplo = random.choice(szereplok)
     cselekves = random.choice(cselekvesek)
@@ -46,7 +44,6 @@ def generate_sentence():
     
     return f"{szereplo} {cselekves} {helyszin}, amikor {esemeny}, és {kovetkezmeny}."
 
-# Történet generálása
 def generate_story(paragraphs=3, sentences_per_paragraph=5):
     story = []
     for _ in range(paragraphs):
@@ -54,7 +51,6 @@ def generate_story(paragraphs=3, sentences_per_paragraph=5):
         story.append(paragraph)
     return "\n\n".join(story)
 
-# PDF-helyettesítő fájl létrehozása
 def create_pdf_like_file(name, story):
     os.makedirs("CreatedPDF", exist_ok=True)
     file_path = os.path.join("CreatedPDF", f"{name}.pdf")
@@ -62,8 +58,7 @@ def create_pdf_like_file(name, story):
         file.write("Cím: Egy különös utazás\n\n")
         file.write(story)
 
-# Főprogram
 if __name__ == "__main__":
-    for i in range(3):  # 3 különböző történet generálása
-        story = generate_story(paragraphs=4, sentences_per_paragraph=7)  # 4 bekezdés, 7 mondat/bekezdés
+    for i in range(5):  
+        story = generate_story(paragraphs=4, sentences_per_paragraph=7)  
         create_pdf_like_file(f"Történet_{i}", story)
